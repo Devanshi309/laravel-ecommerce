@@ -109,31 +109,62 @@
 
                         <!-- Quantity -->
 
-                        <td>
+                       <td>
 
-                            <form action="{{ route('update.cart',$item['id']) }}"
-                                  method="POST"
-                                  class="d-flex gap-2">
+    <div class="d-flex align-items-center gap-2">
 
-                                @csrf
+        <!-- Minus Button -->
 
-                                <input type="number"
-                                       name="qty"
-                                       value="{{ $item['qty'] }}"
-                                       min="1"
-                                       class="form-control">
+        <form action="{{ route('update.cart',$item['id']) }}"
+              method="POST">
 
-                                <button type="submit"
-                                        class="btn btn-primary btn-sm">
+            @csrf
 
-                                    Update
+            <input type="hidden"
+                   name="qty"
+                   value="{{ $item['qty'] - 1 }}">
 
-                                </button>
+            <button type="submit"
+                    class="btn btn-danger btn-sm"
+                    {{ $item['qty'] <= 1 ? 'disabled' : '' }}>
 
-                            </form>
+                -
 
-                        </td>
+            </button>
 
+        </form>
+
+        <!-- Quantity -->
+
+        <span class="fw-bold">
+
+            {{ $item['qty'] }}
+
+        </span>
+
+        <!-- Plus Button -->
+
+        <form action="{{ route('update.cart',$item['id']) }}"
+              method="POST">
+
+            @csrf
+
+            <input type="hidden"
+                   name="qty"
+                   value="{{ $item['qty'] + 1 }}">
+
+            <button type="submit"
+                    class="btn btn-success btn-sm">
+
+                +
+
+            </button>
+
+        </form>
+
+    </div>
+
+</td>
                         <!-- Total -->
 
                         <td>

@@ -43,39 +43,57 @@
         Create Category
     </h2>
 
-    <form action="{{ route('categories.store') }}"
-          method="POST">
+   <form action="{{ route('categories.store') }}"
+      method="POST"
+      enctype="multipart/form-data">
 
-        @csrf
+    @csrf
 
-        <div class="mb-3">
+    <!-- Parent Category -->
 
-            <label class="form-label fw-bold">
-                Category Name
-            </label>
+    <label>Parent Category</label>
 
-            <input type="text"
-                   name="name"
-                   class="form-control"
-                   placeholder="Enter Category Name">
+    <select name="parent_id">
 
-        </div>
+        <option value="">
+            Main Category
+        </option>
 
-        <button type="submit"
-                class="btn btn-primary w-100">
+        @foreach($parents as $parent)
 
-            Save Category
+            <option value="{{ $parent->id }}">
 
-        </button>
+                {{ $parent->name }}
 
-        <a href="{{ route('categories.index') }}"
-           class="btn btn-dark w-100 mt-3">
+            </option>
 
-            Back
+        @endforeach
 
-        </a>
+    </select>
 
-    </form>
+    <br><br>
+
+    <!-- Name -->
+
+    <input type="text"
+           name="name"
+           placeholder="Category Name">
+
+    <br><br>
+
+    <!-- Image -->
+
+    <input type="file" name="image">
+
+    <br><br>
+
+    <button type="submit">
+
+        Save Category
+
+    </button>
+
+</form>
 
 </div>
 

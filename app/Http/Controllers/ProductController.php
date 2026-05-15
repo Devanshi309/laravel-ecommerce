@@ -14,9 +14,9 @@ class ProductController extends Controller
     // Product List
     public function index()
     {
-     $products = Product::with('category')
-            ->get();
-     $products = Product::paginate(5);
+   $products = Product::with('categories')
+            ->paginate(5);
+    //  $products = Product::paginate(5);
 
     return view('product.index', compact('products'));
     }
@@ -26,7 +26,7 @@ class ProductController extends Controller
 
    public function show(Product $product)
 {
-    $product->load('images','category');
+    $product->load('images','categories');
 
     return view(
         'product.show',
@@ -54,7 +54,7 @@ public function edit(Product $product)
 
         'description' => $request->description,
 
-        'category_id' => $request->category_id
+     
     ];
 
     // Single Image Update
@@ -76,6 +76,9 @@ public function edit(Product $product)
     }
 
     $product->update($data);
+    $product->categories()->sync(
+    $request->categories
+);
 
     // Multiple Images Upload
     if($request->hasFile('images'))
@@ -116,19 +119,28 @@ public function edit(Product $product)
     {
         $categories = Category::all();
 
-        return view('product.create', compact('categories'));
+    return view(
+        'product.create',
+        compact('categories')
+    );
     }
 
     // Save Product
     public function store(Request $request)
     {
-           $request->validate([
-        'name' => 'required',
-        'price' => 'required',
-        'description' => 'required',
-        'category_id' => 'required',
-        'image' => 'required|image',
-    ]);
+          $request->validate([
+
+    'name' => 'required',
+
+    'price' => 'required',
+
+    'description' => 'required',
+
+    'categories' => 'required',
+
+    'image' => 'required|image',
+]);
+    
 
     // Single Image Upload
    $productName = Str::slug($request->name);
@@ -156,8 +168,11 @@ $request->image->storeAs(
 
         'description' => $request->description,
 
-        'category_id' => $request->category_id
     ]);
+    
+     $product->categories()->attach(
+        $request->categories
+    );
 
     // Multiple Images Upload
     // Multiple Images Upload
@@ -193,7 +208,7 @@ if($request->hasFile('images'))
     {
      if($request->ajax())
      {
-          $data = Product::with('category')
+          $data =Product::with('categories')
                 ->select('products.*');
 
           return DataTables::of($data)
@@ -212,7 +227,7 @@ if($request->hasFile('images'))
 
             ->addColumn('category', function($row){
 
-                return $row->category->name;
+                return $row->categories->pluck('name')->implode(', ');
             })
 
             ->rawColumns(['image'])

@@ -97,13 +97,21 @@
 
      <div class="form-group">
             <label>Category</label>
-    <select name="category_id">
-        @foreach($categories as $category)
-            <option value="{{ $category->id }}">
-                {{ $category->name }}
-            </option>
-        @endforeach
-    </select></div>
+     <select name="categories[]"
+                multiple
+                class="form-control">
+
+            @foreach($categories as $category)
+
+                <option value="{{ $category->id }}">
+
+                    {{ $category->name }}
+
+                </option>
+
+            @endforeach
+
+        </select></div>
 
     <!-- Single Image -->
      <div class="form-group">

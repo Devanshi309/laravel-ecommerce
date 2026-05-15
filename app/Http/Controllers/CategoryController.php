@@ -26,7 +26,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-         return view('categories.create');
+        //  return view('categories.create');
+          $parents = Category::whereNull('parent_id')->get();
+        return view(
+        'categories.create',
+        compact('parents')
+            );
     }
 
     /**
@@ -38,15 +43,34 @@ class CategoryController extends Controller
         'name' => 'required|unique:categories'
     ]);
 
+    $imageName = null;
+
+    // Upload Image
+    if($request->hasFile('image'))
+    {
+        $imageName = time().'.'.$request->image->extension();
+
+        $request->image->storeAs(
+            'categories',
+            $imageName,
+            'public'
+        );
+    }
+
     Category::create([
+
+       
+        'parent_id' => $request->parent_id,
 
         'name' => $request->name,
 
-        'slug' => Str::slug($request->name)
+        'slug' => Str::slug($request->name),
+
+        'image' => $imageName
 
     ]);
 
-    return redirect()->route('categories.index');
+     return redirect()->route('categories.index');
 }
 
     /**

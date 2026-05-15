@@ -98,7 +98,7 @@
 
                     <strong>Category:</strong>
 
-                    {{ $product->category->name }}
+                   {{ $product->categories->pluck('name')->implode(', ') }}
 
                 </p>
 

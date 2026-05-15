@@ -190,7 +190,7 @@
                 </p>
 
                 <p class="category">
-                    {{ $product->category->name }}
+                  {{ $product->categories->pluck('name')->implode(', ') }}
                 </p>
 
                 <div class="btn-group">
