@@ -69,7 +69,18 @@
 <div class="container page-wrapper">
 
     <div class="card-box">
+        @if(session('success'))
 
+<div class="alert alert-success alert-dismissible fade show">
+    {{ session('success') }}
+
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+    </button>
+</div>
+
+@endif
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h1 class="mb-0">

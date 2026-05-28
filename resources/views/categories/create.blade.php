@@ -42,7 +42,7 @@
     <h2 class="form-title">
         Create Category
     </h2>
-
+    
    <form action="{{ route('categories.store') }}"
       method="POST"
       enctype="multipart/form-data">

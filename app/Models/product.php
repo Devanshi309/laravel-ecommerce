@@ -28,6 +28,10 @@ class Product extends Model
         'product_category'
     );
 }
+    // public function order()
+    // {
+    //     return $this->hasMany(Product::class);
+    // }
 
     public function images()
     {

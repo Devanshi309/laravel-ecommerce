@@ -48,35 +48,35 @@
                         $grandTotal = 0;
                     @endphp
 
-                    @foreach($cart as $item)
+                 @foreach($cartItems as $item)
 
-                    @php
-                        $total = $item['price'] * $item['qty'];
+@php
+    $total = $item->product->price * $item->product_qty;
 
-                        $grandTotal += $total;
-                    @endphp
+    $grandTotal += $total;
+@endphp
 
-                    <tr>
+<tr>
 
-                        <td>
-                            {{ $item['name'] }}
-                        </td>
+    <td>
+        {{ $item->product->name }}
+    </td>
 
-                        <td>
-                            ₹{{ $item['price'] }}
-                        </td>
+    <td>
+        ₹{{ $item->product->price }}
+    </td>
 
-                        <td>
-                            {{ $item['qty'] }}
-                        </td>
+    <td>
+        {{ $item->product_qty }}
+    </td>
 
-                        <td>
-                            ₹{{ $total }}
-                        </td>
+    <td>
+        ₹{{ $total }}
+    </td>
 
-                    </tr>
+</tr>
 
-                    @endforeach
+@endforeach
 
                     </tbody>
 
@@ -101,6 +101,8 @@
 
             <div class="d-flex justify-content-between mt-4">
 
+                <!-- Back Button -->
+
                 <a href="{{ route('cart.index') }}"
                    class="btn btn-secondary">
 
@@ -108,13 +110,31 @@
 
                 </a>
 
+                <!-- Place Order Form -->
+
+                <form action="{{ route('stripe.checkout') }}"
+                method="POST">
+
+                @csrf
+
                 <button class="btn btn-success">
 
-                    Place Order
+                    Pay With Stripe
 
                 </button>
 
+            </form>
+
             </div>
+         @if(session('error'))
+
+        <div class="alert alert-danger">
+
+            {{ session('error') }}
+
+        </div>
+
+        @endif
 
         </div>
 

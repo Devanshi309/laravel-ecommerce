@@ -70,7 +70,7 @@
         <div class="row">
 
             <!-- Left Side -->
-
+                 
             <div class="col-md-6">
 
                 <img src="{{ asset('storage/products/'.$product->image) }}"
@@ -79,35 +79,8 @@
             </div>
 
             <!-- Right Side -->
-
-            <div class="col-md-6">
-
-                <h1 class="mb-3">
-
-                    {{ $product->name }}
-
-                </h1>
-
-                <p class="price mb-3">
-
-                    ₹{{ $product->price }}
-
-                </p>
-
-                <p class="category mb-3">
-
-                    <strong>Category:</strong>
-
-                   {{ $product->categories->pluck('name')->implode(', ') }}
-
-                </p>
-
-                <p class="description">
-
-                    {{ $product->description }}
-
-                </p>
-
+             
+          
                 <!-- Add To Cart -->
 
                 <form action="{{ route('add.to.cart',$product->id) }}"

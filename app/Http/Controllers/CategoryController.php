@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Mpdels\Product;
 use Illuminate\Support\Str;
 
 
@@ -14,7 +15,11 @@ class CategoryController extends Controller
    public function index()
 {
     $categories = Category::all();
-
+    $all=Category::with('Products')->get();
+   
+    // return response()->json([
+    //     'data'=>$all
+    // ]);
     return view(
         'categories.index',
         compact('categories')
@@ -38,8 +43,8 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
+    {
+        $request->validate([
         'name' => 'required|unique:categories'
     ]);
 
@@ -64,13 +69,14 @@ class CategoryController extends Controller
 
         'name' => $request->name,
 
-        'slug' => Str::slug($request->name),
+        // 'slug' => Str::slug($request->name),
 
         'image' => $imageName
 
     ]);
 
-     return redirect()->route('categories.index');
+     return redirect()->route('categories.index')
+         ->with('success', 'Category added successfully!');
 }
 
     /**
